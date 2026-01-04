@@ -26,12 +26,18 @@ const corsOptions = {
     const allowedOrigins = [
       'http://localhost:3000',
       'https://your-frontend.vercel.app',
-      'https://task-manager-frontend.vercel.app'
+      'https://task-manager-frontend.vercel.app',
+      'https://task-ntgu.onrender.com'
     ];
+
+    if (process.env.FRONTEND_URL) {
+      allowedOrigins.push(process.env.FRONTEND_URL);
+    }
 
     if (!origin || allowedOrigins.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
+      console.error('CORS blocked origin:', origin);
       callback(new Error('Not allowed by CORS'));
     }
   },
