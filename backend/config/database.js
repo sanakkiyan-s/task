@@ -1,5 +1,10 @@
 const { Sequelize } = require('sequelize');
 require('dotenv').config();
+const dns = require('dns');
+// Set DNS result order to prefer IPv4 to avoid Render/Supabase IPv6 connection issues
+if (dns.setDefaultResultOrder) {
+  dns.setDefaultResultOrder('ipv4first');
+}
 
 console.log('=== Database Configuration Debug ===');
 console.log('SUPABASE_URL exists:', !!process.env.SUPABASE_URL);
@@ -11,11 +16,11 @@ let sequelize;
 // If SUPABASE_URL is provided, use it
 if (process.env.SUPABASE_URL) {
   console.log('🔗 Using Supabase connection');
-  
+
   // Parse the Supabase URL
   const supabaseUrl = process.env.SUPABASE_URL;
   console.log('Supabase URL (masked):', supabaseUrl.replace(/:[^:@]+@/, ':****@'));
-  
+
   sequelize = new Sequelize(supabaseUrl, {
     dialect: 'postgres',
     dialectOptions: {
@@ -32,7 +37,7 @@ if (process.env.SUPABASE_URL) {
       idle: 10000
     }
   });
-} 
+}
 // Otherwise, use individual environment variables
 else {
   console.log('🏠 Using local PostgreSQL connection');
