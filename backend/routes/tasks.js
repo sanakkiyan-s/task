@@ -24,6 +24,7 @@ router.get('/', auth, async (req, res) => {
       where: { userId: req.user.id },
       order: [['createdAt', 'DESC']]
     });
+    console.log(tasks);
     res.json(tasks);
   } catch (error) {
     res.status(500).json({ error: error.message });

@@ -1,10 +1,6 @@
 const { Sequelize } = require('sequelize');
 require('dotenv').config();
-const dns = require('dns');
-// Set DNS result order to prefer IPv4 to avoid Render/Supabase IPv6 connection issues
-if (dns.setDefaultResultOrder) {
-  dns.setDefaultResultOrder('ipv4first');
-}
+
 
 console.log('=== Database Configuration Debug ===');
 console.log('SUPABASE_URL exists:', !!process.env.SUPABASE_URL);
@@ -28,10 +24,7 @@ if (process.env.SUPABASE_URL) {
         require: true,
         rejectUnauthorized: false
       },
-      // Force IPv4 for Render compatibility
-      family: 4,
-      // Disable prepared statements (required for Supabase Transaction Pooler)
-      prepare: false,
+
     },
     logging: console.log, // Enable logging for debugging
     pool: {
