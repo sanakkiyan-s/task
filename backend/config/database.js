@@ -27,7 +27,11 @@ if (process.env.SUPABASE_URL) {
       ssl: {
         require: true,
         rejectUnauthorized: false
-      }
+      },
+      // Force IPv4 for Render compatibility
+      family: 4,
+      // Disable prepared statements (required for Supabase Transaction Pooler)
+      prepare: false,
     },
     logging: console.log, // Enable logging for debugging
     pool: {
