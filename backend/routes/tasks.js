@@ -57,6 +57,7 @@ router.get('/stats', auth, async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
+
 });
 
 // Update Task
